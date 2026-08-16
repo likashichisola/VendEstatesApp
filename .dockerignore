@@ -1,9 +1,38 @@
+## Build artifacts
 bin/
 obj/
+**/bin/
+**/obj/
+out/
+
+## Visual Studio / IDE
 .vs/
+**/.vs/
+.vscode/
 **/*.user
-**/*.mdf
-**/*.ldf
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Git
 .git/
 .gitignore
+.gitattributes
+
+## Local database files
+**/*.mdf
+**/*.ldf
+**/*.ndf
+
+## Secrets / local configuration overrides (never bake these into the image)
+**/appsettings.Development.json
+**/appsettings.*.local.json
+**/secrets.json
+**/*.pfx
+**/*.pem
+**/*.key
+
+## Misc
+**/*.log
+**/TestResults/
 *.md

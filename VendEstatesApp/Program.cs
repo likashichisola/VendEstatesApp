@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using VendEstatesApp.Data;
@@ -7,6 +8,14 @@ using VendEstatesApp.Repositories;
 using VendEstatesApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Disable "reload on change" for JSON configuration files. Some sandboxed container
+// hosts (e.g. Render) don't fully support inotify, which can crash the process with
+// SIGSEGV (exit code 139) inside PhysicalFilesWatcher/CreateFileChangeToken during
+// host startup. Reloading appsettings.json at runtime isn't needed in production.
+builder.Configuration.Sources.OfType<Microsoft.Extensions.Configuration.Json.JsonConfigurationSource>()
+    .ToList()
+    .ForEach(source => source.ReloadOnChange = false);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
@@ -18,7 +27,7 @@ builder.Services.AddControllersWithViews(options =>
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -78,6 +87,18 @@ builder.Services.Configure<VapidSettings>(builder.Configuration.GetSection("Vapi
 
 var app = builder.Build();
 
+// Render (and most PaaS providers) terminate TLS at a reverse proxy and forward the
+// original scheme/host via headers. Without this, UseHttpsRedirection/HSTS and any
+// cookie "Secure" checks would see the internal HTTP request and misbehave.
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    // The proxy is not on the same network, so clear the default known networks/proxies
+    // restrictions (Render's proxy IPs are not fixed/known ahead of time).
+    KnownNetworks = { },
+    KnownProxies = { }
+});
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -93,6 +114,9 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Simple anonymous health check endpoint for Render's health checks / container startup probes.
+app.MapGet("/health", () => Results.Ok("Healthy")).AllowAnonymous();
 
 app.MapControllerRoute(
     name: "default",

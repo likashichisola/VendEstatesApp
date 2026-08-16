@@ -51,7 +51,7 @@ public class BookingRepository : GenericRepository<Booking>, IBookingRepository
     public async Task<IEnumerable<Booking>> GetLongTermBookingsAsync() =>
         await DbSet.Include(b => b.Room)
             .AsNoTracking()
-            .Where(b => EF.Functions.DateDiffDay(b.CheckInDate, b.CheckOutDate) >= 30)
+            .Where(b => (b.CheckOutDate.Date - b.CheckInDate.Date).Days >= 30)
             .OrderByDescending(b => b.CheckInDate)
             .ToListAsync();
 
