@@ -3,6 +3,11 @@ WORKDIR /app
 # Render provides the PORT environment variable at runtime; default to 8080 for local `docker run`.
 ENV PORT=8080
 EXPOSE 8080
+# Render's sandboxed containers have a very low inotify instance limit, which crashes the
+# host during WebApplication.CreateBuilder() when it tries to watch appsettings*.json for
+# changes (System.IO.IOException: configured user limit (128) on inotify instances reached).
+# This env var is read by the generic host BEFORE any user code runs, disabling that watcher.
+ENV DOTNET_hostBuilder__reloadConfigOnChange=false
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
