@@ -9,7 +9,7 @@ using PaymentModel = VendEstatesApp.Models.Payment;
 
 namespace VendEstatesApp.Controllers;
 
-[Authorize(Roles = Roles.DirectorOrAccountant)]
+[Authorize(Roles = Roles.All)]
 public class PaymentController : Controller
 {
     private readonly IPaymentService _paymentService;

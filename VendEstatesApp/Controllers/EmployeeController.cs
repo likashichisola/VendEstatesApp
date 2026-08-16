@@ -8,7 +8,7 @@ using EmployeeModel = VendEstatesApp.Models.Employee;
 
 namespace VendEstatesApp.Controllers;
 
-[Authorize(Roles = Roles.DirectorOrManager)]
+[Authorize(Roles = Roles.All)]
 public class EmployeeController : Controller
 {
     private readonly IEmployeeService _employeeService;
@@ -166,7 +166,7 @@ public class EmployeeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Deactivate(int id)
@@ -176,7 +176,7 @@ public class EmployeeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)

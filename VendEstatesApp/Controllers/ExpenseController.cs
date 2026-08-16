@@ -38,7 +38,7 @@ public class ExpenseController : Controller
         return View(expense);
     }
 
-    [Authorize(Roles = Roles.DirectorOrAccountant)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Create()
     {
         var vm = new ExpenseFormViewModel();
@@ -46,7 +46,7 @@ public class ExpenseController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrAccountant)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ExpenseFormViewModel model)
@@ -75,7 +75,7 @@ public class ExpenseController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Approve(int id)
@@ -86,7 +86,7 @@ public class ExpenseController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Reject(int id, string reason)
@@ -97,7 +97,7 @@ public class ExpenseController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.DirectorOrAccountant)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> MarkPaid(int id)
@@ -107,7 +107,7 @@ public class ExpenseController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)

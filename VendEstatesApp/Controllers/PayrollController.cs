@@ -22,7 +22,7 @@ public class PayrollController : Controller
 
     public async Task<IActionResult> Index()
     {
-        if (User.IsInRole(Roles.Director) || User.IsInRole(Roles.Accountant))
+        if (User.IsInRole(Roles.Director) || User.IsInRole(Roles.Manager) || User.IsInRole(Roles.Accountant))
         {
             var all = await _payrollService.GetAllAsync();
             return View(all);
@@ -44,7 +44,7 @@ public class PayrollController : Controller
         return View(payroll);
     }
 
-    [Authorize(Roles = Roles.DirectorOrAccountant)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Create()
     {
         var vm = new PayrollGenerateViewModel();
@@ -52,7 +52,7 @@ public class PayrollController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrAccountant)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(PayrollGenerateViewModel model)
@@ -84,7 +84,7 @@ public class PayrollController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Approve(int id)
@@ -95,7 +95,7 @@ public class PayrollController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Reject(int id, string reason)
@@ -106,7 +106,7 @@ public class PayrollController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.DirectorOrAccountant)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> MarkPaid(int id)

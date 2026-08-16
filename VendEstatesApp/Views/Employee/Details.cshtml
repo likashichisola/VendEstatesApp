@@ -62,7 +62,7 @@
     </div>
     <div class="card-footer d-flex gap-2">
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
-        @if (User.IsInRole("Director") && Model.IsActive)
+        @if ((User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant")) && Model.IsActive)
         {
             <form asp-action="Deactivate" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Deactivate this employee?');">
                 <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-person-dash"></i> Deactivate</button>

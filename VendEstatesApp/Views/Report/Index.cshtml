@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    @if (User.IsInRole("Director") || User.IsInRole("Accountant"))
+    @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
     {
         <div class="col-md-4">
             <div class="card h-100">

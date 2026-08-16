@@ -7,7 +7,7 @@ using BranchModel = VendEstatesApp.Models.Branch;
 
 namespace VendEstatesApp.Controllers;
 
-[Authorize(Roles = Roles.Director)]
+[Authorize(Roles = Roles.All)]
 public class BranchController : Controller
 {
     private readonly IBranchService _branchService;

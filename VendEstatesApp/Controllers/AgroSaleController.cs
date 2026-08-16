@@ -27,7 +27,7 @@ public class AgroSaleController : Controller
         return View(sales);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Create()
     {
         var vm = new AgroSaleFormViewModel();
@@ -35,7 +35,7 @@ public class AgroSaleController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(AgroSaleFormViewModel model)

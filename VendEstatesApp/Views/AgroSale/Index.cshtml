@@ -5,7 +5,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Agro Sales</h4>
-    @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+    @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
     {
         <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Record Sale</a>
     }

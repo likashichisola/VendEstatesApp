@@ -37,7 +37,7 @@ public class ContractController : Controller
         return View(contract);
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Create()
     {
         var vm = new ContractFormViewModel();
@@ -45,7 +45,7 @@ public class ContractController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ContractFormViewModel model)
@@ -72,7 +72,7 @@ public class ContractController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Edit(int id)
     {
         var contract = await _contractService.GetByIdAsync(id);
@@ -97,7 +97,7 @@ public class ContractController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(ContractFormViewModel model)
@@ -125,7 +125,7 @@ public class ContractController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)

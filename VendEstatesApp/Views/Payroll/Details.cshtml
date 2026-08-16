@@ -53,7 +53,7 @@
         </dl>
     </div>
     <div class="card-footer d-flex gap-2">
-        @if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Pending && User.IsInRole("Director"))
+        @if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Pending && (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant")))
         {
             <form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
                 <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-check-lg"></i> Approve</button>
@@ -62,7 +62,7 @@
                 <i class="bi bi-x-lg"></i> Reject
             </button>
         }
-        @if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Approved && (User.IsInRole("Director") || User.IsInRole("Accountant")))
+        @if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Approved && (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant")))
         {
             <form asp-action="MarkPaid" asp-route-id="@Model.Id" method="post" class="d-inline">
                 <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-cash-coin"></i> Mark as Paid</button>
@@ -71,7 +71,7 @@
     </div>
 </div>
 
-@if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Pending && User.IsInRole("Director"))
+@if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Pending && (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant")))
 {
     <div class="modal fade" id="rejectModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">

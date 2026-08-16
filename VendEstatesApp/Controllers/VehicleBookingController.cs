@@ -38,7 +38,7 @@ public class VehicleBookingController : Controller
         return View(booking);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Create()
     {
         var vm = new VehicleBookingFormViewModel();
@@ -46,7 +46,7 @@ public class VehicleBookingController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(VehicleBookingFormViewModel model)
@@ -84,7 +84,7 @@ public class VehicleBookingController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Edit(int id)
     {
         var booking = await _vehicleBookingService.GetByIdAsync(id);
@@ -110,7 +110,7 @@ public class VehicleBookingController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(VehicleBookingFormViewModel model)
@@ -148,7 +148,7 @@ public class VehicleBookingController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Activate(int id)
@@ -158,7 +158,7 @@ public class VehicleBookingController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Complete(int id)
@@ -168,7 +168,7 @@ public class VehicleBookingController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id)

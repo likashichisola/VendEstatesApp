@@ -88,7 +88,7 @@
                             <i class="bi bi-airplane"></i> <span>Leave</span>
                         </a>
                     </li>
-                    @if (User.IsInRole("Director"))
+                    @if ((User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant")))
                     {
                         <li class="nav-item">
                             <a class="nav-link @(IsActive("Contract") ? "active" : "")" asp-controller="Contract" asp-action="Index">
@@ -121,7 +121,7 @@
                             </a>
                         </li>
                     }
-                    @if (User.IsInRole("Director"))
+                    @if ((User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant")))
                     {
                         <li class="nav-section-title">Administration</li>
                         <li class="nav-item">

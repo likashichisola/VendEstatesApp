@@ -8,7 +8,7 @@ using RoomModel = VendEstatesApp.Models.Room;
 
 namespace VendEstatesApp.Controllers;
 
-[Authorize(Roles = Roles.DirectorOrManager)]
+[Authorize(Roles = Roles.All)]
 public class RoomController : Controller
 {
     private readonly IRoomService _roomService;

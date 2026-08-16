@@ -54,7 +54,7 @@ public class BookingController : Controller
         return View(bookings);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Create()
     {
         var vm = new BookingFormViewModel();
@@ -62,7 +62,7 @@ public class BookingController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(BookingFormViewModel model)
@@ -102,7 +102,7 @@ public class BookingController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Edit(int id)
     {
         var booking = await _bookingService.GetByIdAsync(id);
@@ -130,7 +130,7 @@ public class BookingController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(BookingFormViewModel model)
@@ -170,7 +170,7 @@ public class BookingController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CheckIn(int id)
@@ -180,7 +180,7 @@ public class BookingController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CheckOut(int id)
@@ -190,7 +190,7 @@ public class BookingController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id)

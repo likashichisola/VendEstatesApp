@@ -37,7 +37,7 @@ public class VehicleController : Controller
         return View(vehicle);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Create()
     {
         var vm = new VehicleFormViewModel();
@@ -45,7 +45,7 @@ public class VehicleController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(VehicleFormViewModel model)
@@ -82,7 +82,7 @@ public class VehicleController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Edit(int id)
     {
         var vehicle = await _vehicleService.GetByIdAsync(id);
@@ -110,7 +110,7 @@ public class VehicleController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(VehicleFormViewModel model)
@@ -150,7 +150,7 @@ public class VehicleController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)

@@ -20,7 +20,7 @@ public class LeaveController : Controller
 
     public async Task<IActionResult> Index()
     {
-        if (User.IsInRole(Roles.Director) || User.IsInRole(Roles.Manager))
+        if (User.IsInRole(Roles.Director) || User.IsInRole(Roles.Manager) || User.IsInRole(Roles.Accountant))
         {
             var all = await _leaveRequestService.GetAllAsync();
             return View(all);
@@ -78,7 +78,7 @@ public class LeaveController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Approve(int id, string? notes)
@@ -89,7 +89,7 @@ public class LeaveController : Controller
         return RedirectToAction(nameof(Details), new { id });
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Reject(int id, string? notes)

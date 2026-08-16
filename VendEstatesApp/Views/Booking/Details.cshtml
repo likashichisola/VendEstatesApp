@@ -54,7 +54,7 @@
             <dd class="col-sm-9">@(Model.Notes ?? "-")</dd>
         </dl>
     </div>
-    @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+    @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
     {
         <div class="card-footer d-flex gap-2">
             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>

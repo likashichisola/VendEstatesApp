@@ -5,7 +5,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Contracts</h4>
-    @if (User.IsInRole("Director"))
+    @if ((User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant")))
     {
         <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Contract</a>
     }
@@ -41,7 +41,7 @@
                         <td>@contract.AgreedSalary.ToString("N2")</td>
                         <td class="text-end">
                             <a asp-action="Details" asp-route-id="@contract.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
-                            @if (User.IsInRole("Director"))
+                            @if ((User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant")))
                             {
                                 <a asp-action="Edit" asp-route-id="@contract.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
                             }

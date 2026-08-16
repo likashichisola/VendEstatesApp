@@ -43,7 +43,7 @@ public class AgroInventoryController : Controller
         return View(item);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Create()
     {
         var vm = new AgroInventoryFormViewModel();
@@ -51,7 +51,7 @@ public class AgroInventoryController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(AgroInventoryFormViewModel model)
@@ -79,7 +79,7 @@ public class AgroInventoryController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Edit(int id)
     {
         var item = await _agroInventoryService.GetByIdAsync(id);
@@ -105,7 +105,7 @@ public class AgroInventoryController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrManager)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(AgroInventoryFormViewModel model)
@@ -136,7 +136,7 @@ public class AgroInventoryController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize(Roles = Roles.Director)]
+    [Authorize(Roles = Roles.All)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)

@@ -7,7 +7,7 @@
     <h4 class="mb-0">Agro Inventory</h4>
     <div class="d-flex gap-2">
         <a asp-action="LowStock" class="btn btn-outline-warning"><i class="bi bi-exclamation-triangle"></i> Low Stock</a>
-        @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+        @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
         {
             <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Item</a>
         }
@@ -51,7 +51,7 @@
                         </td>
                         <td class="text-end">
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
-                            @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+                            @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
                             {
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
                             }

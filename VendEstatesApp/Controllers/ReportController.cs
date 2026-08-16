@@ -54,7 +54,7 @@ public class ReportController : Controller
         return View(vm);
     }
 
-    [Authorize(Roles = Roles.DirectorOrAccountant)]
+    [Authorize(Roles = Roles.All)]
     public async Task<IActionResult> Payroll(int? month, int? year)
     {
         var now = DateTime.UtcNow;

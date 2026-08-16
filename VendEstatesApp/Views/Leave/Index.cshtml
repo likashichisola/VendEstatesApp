@@ -13,7 +13,7 @@
         <table class="table table-hover align-middle">
             <thead>
                 <tr>
-                    @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+                    @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
                     {
                         <th>Employee</th>
                     }
@@ -36,7 +36,7 @@
                         _ => "warning"
                     };
                     <tr>
-                        @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+                        @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
                         {
                             <td>@leave.Employee?.FullName</td>
                         }

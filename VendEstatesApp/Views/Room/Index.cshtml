@@ -7,7 +7,7 @@
     <h4 class="mb-0">Rooms</h4>
     <div class="d-flex gap-2">
         <a asp-action="Occupancy" class="btn btn-outline-secondary"><i class="bi bi-pie-chart"></i> Occupancy</a>
-        @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+        @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
         {
             <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Room</a>
         }
@@ -37,7 +37,7 @@
                 </div>
                 <div class="card-footer d-flex gap-2">
                     <a asp-action="Details" asp-route-id="@room.Id" class="btn btn-sm btn-outline-secondary">View</a>
-                    @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+                    @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
                     {
                         <a asp-action="Edit" asp-route-id="@room.Id" class="btn btn-sm btn-outline-primary">Edit</a>
                     }
