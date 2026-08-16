@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VendEstatesApp.Models;
 using VendEstatesApp.Models.Enums;
 
@@ -46,6 +47,7 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         ConfigureDecimalPrecision(modelBuilder);
+        ConfigureDateTimeUtc(modelBuilder);
 
         // Branch
         modelBuilder.Entity<Branch>(entity =>
@@ -291,6 +293,36 @@ public class ApplicationDbContext : DbContext
                      .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
         {
             property.SetColumnType("decimal(18,2)");
+        }
+    }
+
+    // Npgsql requires DateTime values written to 'timestamp with time zone' columns to have
+    // DateTimeKind.Utc. Values coming from model binding (e.g. date inputs) are typically
+    // DateTimeKind.Unspecified, which throws "Cannot write DateTime with Kind=Unspecified...".
+    // These converters normalize every DateTime/DateTime? property to UTC on write and mark
+    // values read back from the database as UTC as well.
+    private static void ConfigureDateTimeUtc(ModelBuilder modelBuilder)
+    {
+        var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+            v => v.Kind == DateTimeKind.Utc ? v : DateTime.SpecifyKind(v, DateTimeKind.Utc),
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+        var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>(
+            v => v.HasValue ? (v.Value.Kind == DateTimeKind.Utc ? v.Value : DateTime.SpecifyKind(v.Value, DateTimeKind.Utc)) : v,
+            v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
+
+        foreach (var property in modelBuilder.Model.GetEntityTypes()
+                     .SelectMany(t => t.GetProperties())
+                     .Where(p => p.ClrType == typeof(DateTime)))
+        {
+            property.SetValueConverter(dateTimeConverter);
+        }
+
+        foreach (var property in modelBuilder.Model.GetEntityTypes()
+                     .SelectMany(t => t.GetProperties())
+                     .Where(p => p.ClrType == typeof(DateTime?)))
+        {
+            property.SetValueConverter(nullableDateTimeConverter);
         }
     }
 }
