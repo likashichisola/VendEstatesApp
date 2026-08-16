@@ -1,0 +1,29 @@
+services:
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: vendestates-sql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "1433:1433"
+    volumes:
+      - vendestates-sql-data:/var/opt/mssql
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: VendEstatesApp/Dockerfile
+    container_name: vendestates-web
+    depends_on:
+      - sql-server
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__DefaultConnection: "Server=sql-server;Database=VendEstatesManagementSystem;User Id=sa;Password=YourStrong!Passw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;Encrypt=True"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  vendestates-sql-data:

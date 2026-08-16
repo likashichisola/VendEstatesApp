@@ -1,0 +1,58 @@
+@model Dictionary<VendEstatesApp.Models.Enums.RoomStatus, int>
+@{
+    ViewData["Title"] = "Room Occupancy";
+    var total = Model.Values.Sum();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Room Occupancy</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back to Rooms</a>
+</div>
+
+<div class="row g-3">
+    @foreach (VendEstatesApp.Models.Enums.RoomStatus status in Enum.GetValues(typeof(VendEstatesApp.Models.Enums.RoomStatus)))
+    {
+        var count = Model.TryGetValue(status, out var value) ? value : 0;
+        var percentage = total == 0 ? 0 : Math.Round(count * 100.0 / total, 1);
+        var badge = status switch
+        {
+            VendEstatesApp.Models.Enums.RoomStatus.Available => "success",
+            VendEstatesApp.Models.Enums.RoomStatus.Occupied => "danger",
+            VendEstatesApp.Models.Enums.RoomStatus.Reserved => "warning",
+            _ => "secondary"
+        };
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h2 class="mb-0">@count</h2>
+                    <span class="badge bg-@badge mb-2">@status</span>
+                    <p class="text-muted mb-0">@percentage% of total</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h6 class="card-title">Total Rooms: @total</h6>
+        <div class="progress" style="height: 24px;">
+            @foreach (VendEstatesApp.Models.Enums.RoomStatus status in Enum.GetValues(typeof(VendEstatesApp.Models.Enums.RoomStatus)))
+            {
+                var count = Model.TryGetValue(status, out var value) ? value : 0;
+                if (count == 0) { continue; }
+                var percentage = total == 0 ? 0 : (count * 100.0 / total);
+                var badge = status switch
+                {
+                    VendEstatesApp.Models.Enums.RoomStatus.Available => "success",
+                    VendEstatesApp.Models.Enums.RoomStatus.Occupied => "danger",
+                    VendEstatesApp.Models.Enums.RoomStatus.Reserved => "warning",
+                    _ => "secondary"
+                };
+                <div class="progress-bar bg-@badge" style="width: @percentage.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)%" title="@status: @count">
+                    @status (@count)
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+@model IEnumerable<VendEstatesApp.Models.Notification>
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Notifications</h4>
+    @if (Model.Any(n => !n.IsRead))
+    {
+        <form asp-action="MarkAllAsRead" method="post">
+            <input type="hidden" name="returnUrl" value="@Url.Action("Index")" />
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Mark all as read</button>
+        </form>
+    }
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        @if (!Model.Any())
+        {
+            <p class="text-muted p-3 mb-0">You have no notifications.</p>
+        }
+        else
+        {
+            <ul class="list-group list-group-flush">
+                @foreach (var notification in Model)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-start @(notification.IsRead ? "" : "bg-light")">
+                        <div>
+                            <div class="fw-semibold">
+                                <span class="badge bg-secondary-subtle text-secondary-emphasis me-1">@notification.Type</span>
+                                @notification.Title
+                            </div>
+                            <div class="text-muted small">@notification.Message</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">@notification.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</div>
+                        </div>
+                        <div class="d-flex flex-column gap-1 align-items-end">
+                            @if (!string.IsNullOrEmpty(notification.LinkUrl))
+                            {
+                                <a href="@notification.LinkUrl" class="btn btn-sm btn-outline-primary">View</a>
+                            }
+                            @if (!notification.IsRead)
+                            {
+                                <form asp-action="MarkAsRead" method="post">
+                                    <input type="hidden" name="id" value="@notification.Id" />
+                                    <input type="hidden" name="returnUrl" value="@Url.Action("Index")" />
+                                    <button type="submit" class="btn btn-sm btn-link p-0">Mark as read</button>
+                                </form>
+                            }
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

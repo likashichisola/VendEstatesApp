@@ -1,0 +1,56 @@
+@model VendEstatesApp.ViewModels.Expense.ExpenseFormViewModel
+@{
+    ViewData["Title"] = "New Expense";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">New Expense</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Category" class="form-label"></label>
+                    <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<VendEstatesApp.Models.Enums.ExpenseCategory>()"></select>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="BranchId" class="form-label"></label>
+                    <select asp-for="BranchId" class="form-select" asp-items="Model.BranchOptions">
+                        <option value="">-- Select Branch --</option>
+                    </select>
+                    <span asp-validation-for="BranchId" class="text-danger small"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Amount" class="form-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger small"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="ExpenseDate" class="form-label"></label>
+                    <input asp-for="ExpenseDate" class="form-control" />
+                    <span asp-validation-for="ExpenseDate" class="text-danger small"></span>
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Submit Expense</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

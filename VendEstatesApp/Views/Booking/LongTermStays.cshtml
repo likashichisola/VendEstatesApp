@@ -1,0 +1,50 @@
+@model IEnumerable<VendEstatesApp.Models.Booking>
+@{
+    ViewData["Title"] = "Long-Term Stays";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Long-Term Stays <small class="text-muted fs-6">(30+ days)</small></h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive-card table-responsive">
+        @if (!Model.Any())
+        {
+            <p class="text-muted mb-0">There are no long-term stays at this time.</p>
+        }
+        else
+        {
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Guest</th>
+                        <th>Room</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th>Stay Length</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model)
+                    {
+                        <tr>
+                            <td>@booking.GuestName</td>
+                            <td>@booking.Room?.RoomNumber</td>
+                            <td>@booking.CheckInDate.ToString("dd MMM yyyy")</td>
+                            <td>@booking.CheckOutDate.ToString("dd MMM yyyy")</td>
+                            <td><span class="badge bg-info-subtle text-info-emphasis">@booking.StayLengthInDays days</span></td>
+                            <td>@booking.Status</td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@booking.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

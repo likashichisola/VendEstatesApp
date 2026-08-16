@@ -1,0 +1,98 @@
+@model VendEstatesApp.ViewModels.Payment.PaymentFormViewModel
+@{
+    ViewData["Title"] = "Record Payment";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Record Payment</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label asp-for="Type" class="form-label"></label>
+                    <select asp-for="Type" id="paymentType" class="form-select" asp-items="Html.GetEnumSelectList<VendEstatesApp.Models.Enums.PaymentType>()"></select>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Method" class="form-label"></label>
+                    <select asp-for="Method" class="form-select" asp-items="Html.GetEnumSelectList<VendEstatesApp.Models.Enums.PaymentMethod>()"></select>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Amount" class="form-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 payment-target" data-type="BookingPayment">
+                    <label asp-for="BookingId" class="form-label"></label>
+                    <select asp-for="BookingId" class="form-select" asp-items="Model.BookingOptions">
+                        <option value="">-- Select Booking --</option>
+                    </select>
+                    <span asp-validation-for="BookingId" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6 payment-target" data-type="VehicleRentalPayment">
+                    <label asp-for="VehicleBookingId" class="form-label"></label>
+                    <select asp-for="VehicleBookingId" class="form-select" asp-items="Model.VehicleBookingOptions">
+                        <option value="">-- Select Vehicle Booking --</option>
+                    </select>
+                    <span asp-validation-for="VehicleBookingId" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6 payment-target" data-type="ExpensePayment">
+                    <label asp-for="ExpenseId" class="form-label"></label>
+                    <select asp-for="ExpenseId" class="form-select" asp-items="Model.ExpenseOptions">
+                        <option value="">-- Select Expense --</option>
+                    </select>
+                    <span asp-validation-for="ExpenseId" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6 payment-target" data-type="SalaryPayment">
+                    <label asp-for="PayrollId" class="form-label"></label>
+                    <select asp-for="PayrollId" class="form-select" asp-items="Model.PayrollOptions">
+                        <option value="">-- Select Payroll --</option>
+                    </select>
+                    <span asp-validation-for="PayrollId" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="PaymentDate" class="form-label"></label>
+                    <input asp-for="PaymentDate" class="form-control" />
+                    <span asp-validation-for="PaymentDate" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ReferenceNumber" class="form-label"></label>
+                    <input asp-for="ReferenceNumber" class="form-control" />
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Notes" class="form-label"></label>
+                    <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Record Payment</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            var typeSelect = document.getElementById('paymentType');
+            var targets = document.querySelectorAll('.payment-target');
+
+            function updateVisibility() {
+                var selected = typeSelect.value;
+                targets.forEach(function (el) {
+                    el.style.display = el.getAttribute('data-type') === selected ? '' : 'none';
+                });
+            }
+
+            typeSelect.addEventListener('change', updateVisibility);
+            updateVisibility();
+        })();
+    </script>
+}

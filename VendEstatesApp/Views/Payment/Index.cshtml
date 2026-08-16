@@ -1,0 +1,55 @@
+@model IEnumerable<VendEstatesApp.Models.Payment>
+@{
+    ViewData["Title"] = "Payments";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Payments</h4>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Record Payment</a>
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive-card table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Method</th>
+                    <th>Related To</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var payment in Model)
+                {
+                    var statusBadge = payment.Status switch
+                    {
+                        VendEstatesApp.Models.Enums.PaymentStatus.Completed => "success",
+                        VendEstatesApp.Models.Enums.PaymentStatus.Approved => "primary",
+                        VendEstatesApp.Models.Enums.PaymentStatus.Rejected => "danger",
+                        _ => "warning"
+                    };
+                    var relatedTo = payment.Booking?.GuestName
+                        ?? payment.VehicleBooking?.CustomerName
+                        ?? payment.Expense?.Title
+                        ?? payment.Employee?.FullName
+                        ?? "-";
+                    <tr>
+                        <td>@payment.Type</td>
+                        <td>@payment.Method</td>
+                        <td>@relatedTo</td>
+                        <td>@payment.PaymentDate.ToString("dd MMM yyyy")</td>
+                        <td>K@payment.Amount.ToString("N2")</td>
+                        <td><span class="badge bg-@statusBadge">@payment.Status</span></td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@payment.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+@model IEnumerable<VendEstatesApp.Models.Booking>
+@{
+    ViewData["Title"] = "Booking Calendar";
+    DateTime rangeStart = ViewBag.RangeStart;
+    DateTime rangeEnd = ViewBag.RangeEnd;
+    var days = Enumerable.Range(0, (rangeEnd - rangeStart).Days + 1).Select(i => rangeStart.AddDays(i)).ToList();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Booking Calendar</h4>
+    <div class="d-flex gap-2">
+        <a asp-action="Calendar" asp-route-start="@rangeStart.AddDays(-35).ToString("yyyy-MM-dd")" class="btn btn-outline-secondary btn-sm"><i class="bi bi-chevron-left"></i> Previous</a>
+        <a asp-action="Calendar" asp-route-start="@rangeStart.AddDays(35).ToString("yyyy-MM-dd")" class="btn btn-outline-secondary btn-sm">Next <i class="bi bi-chevron-right"></i></a>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-list"></i> List View</a>
+    </div>
+</div>
+
+<p class="text-muted">@rangeStart.ToString("dd MMM yyyy") &ndash; @rangeEnd.ToString("dd MMM yyyy")</p>
+
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-3">
+    @foreach (var day in days)
+    {
+        var bookingsForDay = Model.Where(b => b.CheckInDate.Date <= day.Date && b.CheckOutDate.Date > day.Date).ToList();
+        <div class="col">
+            <div class="card h-100 @(day.Date == DateTime.Today ? "border-primary" : "")">
+                <div class="card-header py-2 d-flex justify-content-between">
+                    <span>@day.ToString("ddd, dd MMM")</span>
+                    @if (bookingsForDay.Count > 0)
+                    {
+                        <span class="badge bg-primary">@bookingsForDay.Count</span>
+                    }
+                </div>
+                <div class="card-body py-2">
+                    @if (bookingsForDay.Count == 0)
+                    {
+                        <span class="text-muted small">No bookings</span>
+                    }
+                    else
+                    {
+                        <ul class="list-unstyled mb-0 small">
+                            @foreach (var booking in bookingsForDay)
+                            {
+                                <li class="mb-1">
+                                    <a asp-action="Details" asp-route-id="@booking.Id">@booking.Room?.RoomNumber - @booking.GuestName</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,29 @@
+@model VendEstatesApp.ViewModels.ErrorViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Error";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Error - Vend Estates Management System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="auth-body">
+    <div class="auth-wrapper d-flex align-items-center justify-content-center min-vh-100">
+        <div class="card auth-card shadow-lg border-0 text-center">
+            <div class="card-body p-4 p-md-5">
+                <h1 class="text-danger">Error</h1>
+                <p class="text-muted">An error occurred while processing your request.</p>
+                @if (Model.ShowRequestId)
+                {
+                    <p><small class="text-muted">Request ID: <code>@Model.RequestId</code></small></p>
+                }
+                <a href="/" class="btn btn-primary">Go Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

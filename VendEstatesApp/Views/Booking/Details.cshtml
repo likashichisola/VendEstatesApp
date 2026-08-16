@@ -1,0 +1,78 @@
+@model VendEstatesApp.Models.Booking
+@{
+    ViewData["Title"] = "Booking Details";
+    var statusBadge = Model.Status switch
+    {
+        VendEstatesApp.Models.Enums.BookingStatus.CheckedIn => "success",
+        VendEstatesApp.Models.Enums.BookingStatus.CheckedOut => "secondary",
+        VendEstatesApp.Models.Enums.BookingStatus.Cancelled => "danger",
+        _ => "warning"
+    };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Booking - @Model.GuestName</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Guest Name</dt>
+            <dd class="col-sm-9">@Model.GuestName</dd>
+            <dt class="col-sm-3">Phone</dt>
+            <dd class="col-sm-9">@Model.GuestPhone</dd>
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@(Model.GuestEmail ?? "-")</dd>
+            <dt class="col-sm-3">ID Number</dt>
+            <dd class="col-sm-9">@(Model.GuestIdNumber ?? "-")</dd>
+            <dt class="col-sm-3">Room</dt>
+            <dd class="col-sm-9">@Model.Room?.RoomNumber (@Model.Room?.Type)</dd>
+            <dt class="col-sm-3">Check-In</dt>
+            <dd class="col-sm-9">@Model.CheckInDate.ToString("dd MMM yyyy")</dd>
+            <dt class="col-sm-3">Check-Out</dt>
+            <dd class="col-sm-9">@Model.CheckOutDate.ToString("dd MMM yyyy")</dd>
+            <dt class="col-sm-3">Stay Length</dt>
+            <dd class="col-sm-9">
+                @Model.StayLengthInDays day(s)
+                @if (Model.IsLongTermStay)
+                {
+                    <span class="badge bg-info-subtle text-info-emphasis ms-1">Long-Term Stay</span>
+                }
+            </dd>
+            <dt class="col-sm-3">Guests</dt>
+            <dd class="col-sm-9">@Model.NumberOfGuests</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9"><span class="badge bg-@statusBadge">@Model.Status</span></dd>
+            <dt class="col-sm-3">Total Amount</dt>
+            <dd class="col-sm-9">K@(Model.TotalAmount.ToString("N2"))</dd>
+            <dt class="col-sm-3">Amount Paid</dt>
+            <dd class="col-sm-9">K@(Model.AmountPaid.ToString("N2"))</dd>
+            <dt class="col-sm-3">Balance</dt>
+            <dd class="col-sm-9">K@(Model.Balance.ToString("N2"))</dd>
+            <dt class="col-sm-3">Notes</dt>
+            <dd class="col-sm-9">@(Model.Notes ?? "-")</dd>
+        </dl>
+    </div>
+    @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+    {
+        <div class="card-footer d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
+            @if (Model.Status == VendEstatesApp.Models.Enums.BookingStatus.Pending)
+            {
+                <form asp-action="CheckIn" asp-route-id="@Model.Id" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-box-arrow-in-right"></i> Check In</button>
+                </form>
+                <form asp-action="Cancel" asp-route-id="@Model.Id" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i> Cancel</button>
+                </form>
+            }
+            @if (Model.Status == VendEstatesApp.Models.Enums.BookingStatus.CheckedIn)
+            {
+                <form asp-action="CheckOut" asp-route-id="@Model.Id" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-box-arrow-left"></i> Check Out</button>
+                </form>
+            }
+        </div>
+    }
+</div>

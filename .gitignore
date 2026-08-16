@@ -1,0 +1,39 @@
+## .NET build results
+bin/
+obj/
+out/
+
+## Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+
+## VS Code
+.vscode/
+
+## NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+## Local database files
+*.mdf
+*.ldf
+*.ndf
+
+## User secrets / environment
+appsettings.*.local.json
+*.env
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log

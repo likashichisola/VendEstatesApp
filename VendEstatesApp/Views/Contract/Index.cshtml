@@ -1,0 +1,54 @@
+@model IEnumerable<VendEstatesApp.Models.Contract>
+@{
+    ViewData["Title"] = "Contracts";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Contracts</h4>
+    @if (User.IsInRole("Director"))
+    {
+        <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Contract</a>
+    }
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive-card table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Agreed Salary</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contract in Model)
+                {
+                    <tr>
+                        <td>@contract.Employee?.FullName</td>
+                        <td>@contract.Type</td>
+                        <td>
+                            <span class="badge bg-@(contract.Status == VendEstatesApp.Models.Enums.ContractStatus.Active ? "success" : contract.Status == VendEstatesApp.Models.Enums.ContractStatus.Terminated ? "danger" : "secondary")">
+                                @contract.Status
+                            </span>
+                        </td>
+                        <td>@contract.StartDate.ToString("dd MMM yyyy")</td>
+                        <td>@(contract.EndDate?.ToString("dd MMM yyyy") ?? "-")</td>
+                        <td>@contract.AgreedSalary.ToString("N2")</td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@contract.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                            @if (User.IsInRole("Director"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@contract.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

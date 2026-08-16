@@ -1,0 +1,56 @@
+@model VendEstatesApp.ViewModels.AgroSale.AgroSaleFormViewModel
+@{
+    ViewData["Title"] = "Record Sale";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Record Sale</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="AgroInventoryId" class="form-label"></label>
+                    <select asp-for="AgroInventoryId" class="form-select" asp-items="Model.InventoryOptions">
+                        <option value="">-- Select Item --</option>
+                    </select>
+                    <span asp-validation-for="AgroInventoryId" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CustomerName" class="form-label"></label>
+                    <input asp-for="CustomerName" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="QuantitySold" class="form-label"></label>
+                    <input asp-for="QuantitySold" class="form-control" />
+                    <span asp-validation-for="QuantitySold" class="text-danger small"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="UnitPrice" class="form-label"></label>
+                    <input asp-for="UnitPrice" class="form-control" />
+                    <span asp-validation-for="UnitPrice" class="text-danger small"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="SaleDate" class="form-label"></label>
+                    <input asp-for="SaleDate" class="form-control" />
+                    <span asp-validation-for="SaleDate" class="text-danger small"></span>
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Notes" class="form-label"></label>
+                    <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Record Sale</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

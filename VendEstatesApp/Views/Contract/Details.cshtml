@@ -1,0 +1,36 @@
+@model VendEstatesApp.Models.Contract
+@{
+    ViewData["Title"] = "Contract Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Contract Details</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Employee</dt>
+            <dd class="col-sm-9">@Model.Employee?.FullName</dd>
+            <dt class="col-sm-3">Type</dt>
+            <dd class="col-sm-9">@Model.Type</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+            <dt class="col-sm-3">Start Date</dt>
+            <dd class="col-sm-9">@Model.StartDate.ToString("dd MMM yyyy")</dd>
+            <dt class="col-sm-3">End Date</dt>
+            <dd class="col-sm-9">@(Model.EndDate?.ToString("dd MMM yyyy") ?? "-")</dd>
+            <dt class="col-sm-3">Agreed Salary</dt>
+            <dd class="col-sm-9">@Model.AgreedSalary.ToString("N2")</dd>
+            <dt class="col-sm-3">Terms</dt>
+            <dd class="col-sm-9">@(Model.Terms ?? "-")</dd>
+        </dl>
+    </div>
+    @if (User.IsInRole("Director"))
+    {
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
+        </div>
+    }
+</div>

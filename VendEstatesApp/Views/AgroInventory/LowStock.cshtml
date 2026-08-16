@@ -1,0 +1,48 @@
+@model IEnumerable<VendEstatesApp.Models.AgroInventory>
+@{
+    ViewData["Title"] = "Low Stock Items";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Low Stock Items</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive-card table-responsive">
+        @if (!Model.Any())
+        {
+            <p class="text-muted mb-0">No items are currently below their reorder level.</p>
+        }
+        else
+        {
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Branch</th>
+                        <th>Quantity</th>
+                        <th>Reorder Level</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="table-warning">
+                            <td>@item.ItemName</td>
+                            <td>@item.Category</td>
+                            <td>@item.Branch?.Name</td>
+                            <td>@item.QuantityInStock.ToString("N2") @item.Unit</td>
+                            <td>@item.ReorderLevel.ToString("N2") @item.Unit</td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

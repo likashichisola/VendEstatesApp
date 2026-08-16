@@ -1,0 +1,96 @@
+@model VendEstatesApp.Models.Payroll
+@{
+    ViewData["Title"] = "Payroll Details";
+    var statusBadge = Model.Status switch
+    {
+        VendEstatesApp.Models.Enums.PayrollStatus.Approved => "success",
+        VendEstatesApp.Models.Enums.PayrollStatus.Paid => "primary",
+        VendEstatesApp.Models.Enums.PayrollStatus.Rejected => "danger",
+        _ => "warning"
+    };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Payroll - @Model.Employee?.FullName (@Model.PayrollMonth/@Model.PayrollYear)</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Employee</dt>
+            <dd class="col-sm-8">@Model.Employee?.FullName</dd>
+            <dt class="col-sm-4">Period</dt>
+            <dd class="col-sm-8">@Model.PayrollMonth/@Model.PayrollYear</dd>
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8"><span class="badge bg-@statusBadge">@Model.Status</span></dd>
+            <dt class="col-sm-4">Basic Salary</dt>
+            <dd class="col-sm-8">K@(Model.BasicSalary.ToString("N2"))</dd>
+            <dt class="col-sm-4">Allowances</dt>
+            <dd class="col-sm-8">K@(Model.Allowances.ToString("N2"))</dd>
+            <dt class="col-sm-4">Gross Salary</dt>
+            <dd class="col-sm-8">K@(Model.GrossSalary.ToString("N2"))</dd>
+            <dt class="col-sm-4">PAYE Tax</dt>
+            <dd class="col-sm-8">K@(Model.PayeTax.ToString("N2"))</dd>
+            <dt class="col-sm-4">NAPSA Contribution</dt>
+            <dd class="col-sm-8">K@(Model.NapsaContribution.ToString("N2"))</dd>
+            <dt class="col-sm-4">NHIMA Contribution</dt>
+            <dd class="col-sm-8">K@(Model.NhimaContribution.ToString("N2"))</dd>
+            <dt class="col-sm-4">Loan Deduction</dt>
+            <dd class="col-sm-8">K@(Model.LoanDeduction.ToString("N2"))</dd>
+            <dt class="col-sm-4">Advance Deduction</dt>
+            <dd class="col-sm-8">K@(Model.AdvanceDeduction.ToString("N2"))</dd>
+            <dt class="col-sm-4">Other Deductions</dt>
+            <dd class="col-sm-8">K@(Model.OtherDeductions.ToString("N2"))</dd>
+            <dt class="col-sm-4">Total Deductions</dt>
+            <dd class="col-sm-8">K@(Model.TotalDeductions.ToString("N2"))</dd>
+            <dt class="col-sm-4 fw-bold">Net Salary</dt>
+            <dd class="col-sm-8 fw-bold">K@(Model.NetSalary.ToString("N2"))</dd>
+            <dt class="col-sm-4">Approved By</dt>
+            <dd class="col-sm-8">@(Model.ApprovedByEmployee?.FullName ?? "-")</dd>
+            <dt class="col-sm-4">Notes</dt>
+            <dd class="col-sm-8">@(Model.Notes ?? "-")</dd>
+        </dl>
+    </div>
+    <div class="card-footer d-flex gap-2">
+        @if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Pending && User.IsInRole("Director"))
+        {
+            <form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
+                <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-check-lg"></i> Approve</button>
+            </form>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                <i class="bi bi-x-lg"></i> Reject
+            </button>
+        }
+        @if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Approved && (User.IsInRole("Director") || User.IsInRole("Accountant")))
+        {
+            <form asp-action="MarkPaid" asp-route-id="@Model.Id" method="post" class="d-inline">
+                <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-cash-coin"></i> Mark as Paid</button>
+            </form>
+        }
+    </div>
+</div>
+
+@if (Model.Status == VendEstatesApp.Models.Enums.PayrollStatus.Pending && User.IsInRole("Director"))
+{
+    <div class="modal fade" id="rejectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form asp-action="Reject" asp-route-id="@Model.Id" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reject Payroll</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="form-label">Reason</label>
+                        <textarea name="reason" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Reject</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}

@@ -1,0 +1,64 @@
+@model IEnumerable<VendEstatesApp.Models.AgroInventory>
+@{
+    ViewData["Title"] = "Agro Inventory";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Agro Inventory</h4>
+    <div class="d-flex gap-2">
+        <a asp-action="LowStock" class="btn btn-outline-warning"><i class="bi bi-exclamation-triangle"></i> Low Stock</a>
+        @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+        {
+            <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Item</a>
+        }
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive-card table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Category</th>
+                    <th>Branch</th>
+                    <th>Quantity</th>
+                    <th>Unit Cost</th>
+                    <th>Reorder Level</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="@(item.IsLowStock ? "table-warning" : "")">
+                        <td>@item.ItemName</td>
+                        <td>@item.Category</td>
+                        <td>@item.Branch?.Name</td>
+                        <td>@item.QuantityInStock.ToString("N2") @item.Unit</td>
+                        <td>K@item.UnitCost.ToString("N2")</td>
+                        <td>@item.ReorderLevel.ToString("N2") @item.Unit</td>
+                        <td>
+                            @if (item.IsLowStock)
+                            {
+                                <span class="badge bg-warning text-dark">Low Stock</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">In Stock</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                            @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

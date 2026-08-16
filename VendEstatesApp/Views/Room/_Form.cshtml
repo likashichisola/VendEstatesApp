@@ -1,0 +1,38 @@
+@model VendEstatesApp.ViewModels.Room.RoomFormViewModel
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <label asp-for="RoomNumber" class="form-label"></label>
+        <input asp-for="RoomNumber" class="form-control" />
+        <span asp-validation-for="RoomNumber" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Type" class="form-label"></label>
+        <select asp-for="Type" class="form-select" asp-items="Html.GetEnumSelectList<VendEstatesApp.Models.Enums.RoomType>()"></select>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<VendEstatesApp.Models.Enums.RoomStatus>()"></select>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="BranchId" class="form-label"></label>
+        <select asp-for="BranchId" class="form-select" asp-items="Model.BranchOptions">
+            <option value="">-- Select Branch --</option>
+        </select>
+        <span asp-validation-for="BranchId" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="PricePerNight" class="form-label"></label>
+        <input asp-for="PricePerNight" class="form-control" />
+        <span asp-validation-for="PricePerNight" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Capacity" class="form-label"></label>
+        <input asp-for="Capacity" class="form-control" />
+        <span asp-validation-for="Capacity" class="text-danger small"></span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+    </div>
+</div>

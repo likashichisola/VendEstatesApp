@@ -1,0 +1,84 @@
+@model VendEstatesApp.ViewModels.Employee.EmployeeFormViewModel
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="FirstName" class="form-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="LastName" class="form-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Username" class="form-label"></label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" placeholder="@(Model.IsEdit ? "Leave blank to keep current password" : "")" />
+        <span asp-validation-for="Password" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Role" class="form-label"></label>
+        <select asp-for="Role" class="form-select" asp-items="Model.RoleOptions"></select>
+        <span asp-validation-for="Role" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="BranchId" class="form-label"></label>
+        <select asp-for="BranchId" class="form-select" asp-items="Model.BranchOptions">
+            <option value="">-- Select Branch --</option>
+        </select>
+        <span asp-validation-for="BranchId" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="JobTitle" class="form-label"></label>
+        <input asp-for="JobTitle" class="form-control" />
+        <span asp-validation-for="JobTitle" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="BasicSalary" class="form-label"></label>
+        <input asp-for="BasicSalary" class="form-control" />
+        <span asp-validation-for="BasicSalary" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="HireDate" class="form-label"></label>
+        <input asp-for="HireDate" class="form-control" />
+        <span asp-validation-for="HireDate" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+        <div class="form-check">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label"></label>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="NapsaNumber" class="form-label"></label>
+        <input asp-for="NapsaNumber" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="NhimaNumber" class="form-label"></label>
+        <input asp-for="NhimaNumber" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="TpinNumber" class="form-label"></label>
+        <input asp-for="TpinNumber" class="form-control" />
+    </div>
+</div>

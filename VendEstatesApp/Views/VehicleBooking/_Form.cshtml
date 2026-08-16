@@ -1,0 +1,44 @@
+@model VendEstatesApp.ViewModels.VehicleBooking.VehicleBookingFormViewModel
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="VehicleId" class="form-label"></label>
+        <select asp-for="VehicleId" class="form-select" asp-items="Model.VehicleOptions">
+            <option value="">-- Select Vehicle --</option>
+        </select>
+        <span asp-validation-for="VehicleId" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="CustomerName" class="form-label"></label>
+        <input asp-for="CustomerName" class="form-control" />
+        <span asp-validation-for="CustomerName" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="CustomerPhone" class="form-label"></label>
+        <input asp-for="CustomerPhone" class="form-control" />
+        <span asp-validation-for="CustomerPhone" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="CustomerIdNumber" class="form-label"></label>
+        <input asp-for="CustomerIdNumber" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="TotalAmount" class="form-label"></label>
+        <input asp-for="TotalAmount" class="form-control" />
+        <span asp-validation-for="TotalAmount" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="StartDate" class="form-label"></label>
+        <input asp-for="StartDate" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="EndDate" class="form-label"></label>
+        <input asp-for="EndDate" class="form-control" />
+        <span asp-validation-for="EndDate" class="text-danger small"></span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="Notes" class="form-label"></label>
+        <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+    </div>
+</div>

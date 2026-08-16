@@ -1,0 +1,48 @@
+@model IEnumerable<VendEstatesApp.Models.Room>
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Rooms</h4>
+    <div class="d-flex gap-2">
+        <a asp-action="Occupancy" class="btn btn-outline-secondary"><i class="bi bi-pie-chart"></i> Occupancy</a>
+        @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+        {
+            <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Room</a>
+        }
+    </div>
+</div>
+
+<div class="row g-3">
+    @foreach (var room in Model)
+    {
+        var statusBadge = room.Status switch
+        {
+            VendEstatesApp.Models.Enums.RoomStatus.Available => "success",
+            VendEstatesApp.Models.Enums.RoomStatus.Occupied => "danger",
+            VendEstatesApp.Models.Enums.RoomStatus.Reserved => "warning",
+            _ => "secondary"
+        };
+        <div class="col-md-4 col-lg-3">
+            <div class="card booking-card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title mb-1">Room @room.RoomNumber</h5>
+                        <span class="badge bg-@statusBadge">@room.Status</span>
+                    </div>
+                    <p class="text-muted mb-1">@room.Type · @room.Branch?.Name</p>
+                    <p class="mb-1"><i class="bi bi-people"></i> Capacity: @room.Capacity</p>
+                    <p class="fw-semibold mb-0">K@room.PricePerNight.ToString("N2") / night</p>
+                </div>
+                <div class="card-footer d-flex gap-2">
+                    <a asp-action="Details" asp-route-id="@room.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                    @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@room.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

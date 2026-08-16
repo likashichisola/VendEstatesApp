@@ -1,0 +1,59 @@
+@model IEnumerable<VendEstatesApp.Models.VehicleBooking>
+@{
+    ViewData["Title"] = "Rental Bookings";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Rental Bookings</h4>
+    @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+    {
+        <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Rental Booking</a>
+    }
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive-card table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Balance</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    var statusBadge = booking.Status switch
+                    {
+                        VendEstatesApp.Models.Enums.VehicleBookingStatus.Active => "success",
+                        VendEstatesApp.Models.Enums.VehicleBookingStatus.Completed => "secondary",
+                        VendEstatesApp.Models.Enums.VehicleBookingStatus.Cancelled => "danger",
+                        _ => "warning"
+                    };
+                    <tr>
+                        <td>@booking.CustomerName</td>
+                        <td>@booking.Vehicle?.RegistrationNumber (@booking.Vehicle?.Make @booking.Vehicle?.Model)</td>
+                        <td>@booking.StartDate.ToString("dd MMM yyyy")</td>
+                        <td>@booking.EndDate.ToString("dd MMM yyyy")</td>
+                        <td><span class="badge bg-@statusBadge">@booking.Status</span></td>
+                        <td>K@booking.TotalAmount.ToString("N2")</td>
+                        <td>K@booking.Balance.ToString("N2")</td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@booking.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                            @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@booking.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

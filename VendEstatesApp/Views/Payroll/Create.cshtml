@@ -1,0 +1,63 @@
+@model VendEstatesApp.ViewModels.Payroll.PayrollGenerateViewModel
+@{
+    ViewData["Title"] = "Generate Payroll";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Generate Payroll</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="EmployeeId" class="form-label"></label>
+                    <select asp-for="EmployeeId" class="form-select" asp-items="Model.EmployeeOptions">
+                        <option value="">-- Select Employee --</option>
+                    </select>
+                    <span asp-validation-for="EmployeeId" class="text-danger small"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="PayrollMonth" class="form-label"></label>
+                    <input asp-for="PayrollMonth" class="form-control" />
+                    <span asp-validation-for="PayrollMonth" class="text-danger small"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="PayrollYear" class="form-label"></label>
+                    <input asp-for="PayrollYear" class="form-control" />
+                    <span asp-validation-for="PayrollYear" class="text-danger small"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Allowances" class="form-label"></label>
+                    <input asp-for="Allowances" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="LoanDeduction" class="form-label"></label>
+                    <input asp-for="LoanDeduction" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="AdvanceDeduction" class="form-label"></label>
+                    <input asp-for="AdvanceDeduction" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="OtherDeductions" class="form-label"></label>
+                    <input asp-for="OtherDeductions" class="form-control" />
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="Notes" class="form-label"></label>
+                    <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Generate Payroll</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

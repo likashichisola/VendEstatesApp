@@ -1,0 +1,59 @@
+@model IEnumerable<VendEstatesApp.Models.Payroll>
+@{
+    ViewData["Title"] = "Payroll";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Payroll</h4>
+    @if (User.IsInRole("Director") || User.IsInRole("Accountant"))
+    {
+        <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Generate Payroll</a>
+    }
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive-card table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    @if (User.IsInRole("Director") || User.IsInRole("Accountant"))
+                    {
+                        <th>Employee</th>
+                    }
+                    <th>Period</th>
+                    <th>Gross Salary</th>
+                    <th>Deductions</th>
+                    <th>Net Salary</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var payroll in Model)
+                {
+                    var statusBadge = payroll.Status switch
+                    {
+                        VendEstatesApp.Models.Enums.PayrollStatus.Approved => "success",
+                        VendEstatesApp.Models.Enums.PayrollStatus.Paid => "primary",
+                        VendEstatesApp.Models.Enums.PayrollStatus.Rejected => "danger",
+                        _ => "warning"
+                    };
+                    <tr>
+                        @if (User.IsInRole("Director") || User.IsInRole("Accountant"))
+                        {
+                            <td>@payroll.Employee?.FullName</td>
+                        }
+                        <td>@payroll.PayrollMonth/@payroll.PayrollYear</td>
+                        <td>K@payroll.GrossSalary.ToString("N2")</td>
+                        <td>K@payroll.TotalDeductions.ToString("N2")</td>
+                        <td>K@payroll.NetSalary.ToString("N2")</td>
+                        <td><span class="badge bg-@statusBadge">@payroll.Status</span></td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@payroll.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+@model VendEstatesApp.Models.LeaveRequest
+@{
+    ViewData["Title"] = "Leave Request Details";
+    var statusBadge = Model.Status switch
+    {
+        VendEstatesApp.Models.Enums.LeaveStatus.Approved => "success",
+        VendEstatesApp.Models.Enums.LeaveStatus.Rejected => "danger",
+        VendEstatesApp.Models.Enums.LeaveStatus.Cancelled => "secondary",
+        _ => "warning"
+    };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Leave Request</h4>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Employee</dt>
+            <dd class="col-sm-9">@Model.Employee?.FullName</dd>
+            <dt class="col-sm-3">Type</dt>
+            <dd class="col-sm-9">@Model.Type</dd>
+            <dt class="col-sm-3">Start Date</dt>
+            <dd class="col-sm-9">@Model.StartDate.ToString("dd MMM yyyy")</dd>
+            <dt class="col-sm-3">End Date</dt>
+            <dd class="col-sm-9">@Model.EndDate.ToString("dd MMM yyyy")</dd>
+            <dt class="col-sm-3">Number of Days</dt>
+            <dd class="col-sm-9">@Model.NumberOfDays</dd>
+            <dt class="col-sm-3">Reason</dt>
+            <dd class="col-sm-9">@(Model.Reason ?? "-")</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9"><span class="badge bg-@statusBadge">@Model.Status</span></dd>
+            @if (Model.ApprovedByEmployee is not null)
+            {
+                <dt class="col-sm-3">Decision By</dt>
+                <dd class="col-sm-9">@Model.ApprovedByEmployee.FullName</dd>
+                <dt class="col-sm-3">Decision Notes</dt>
+                <dd class="col-sm-9">@(Model.DecisionNotes ?? "-")</dd>
+            }
+        </dl>
+    </div>
+    <div class="card-footer d-flex gap-2">
+        @if (Model.Status == VendEstatesApp.Models.Enums.LeaveStatus.Pending && (User.IsInRole("Director") || User.IsInRole("Manager")))
+        {
+            <form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
+                <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-check-lg"></i> Approve</button>
+            </form>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                <i class="bi bi-x-lg"></i> Reject
+            </button>
+        }
+        @if (Model.Status == VendEstatesApp.Models.Enums.LeaveStatus.Pending)
+        {
+            <form asp-action="Cancel" asp-route-id="@Model.Id" method="post" class="d-inline" onsubmit="return confirm('Cancel this leave request?');">
+                <button type="submit" class="btn btn-outline-secondary btn-sm"><i class="bi bi-x-circle"></i> Cancel Request</button>
+            </form>
+        }
+    </div>
+</div>
+
+@if (Model.Status == VendEstatesApp.Models.Enums.LeaveStatus.Pending && (User.IsInRole("Director") || User.IsInRole("Manager")))
+{
+    <div class="modal fade" id="rejectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form asp-action="Reject" asp-route-id="@Model.Id" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reject Leave Request</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="form-label">Notes</label>
+                        <textarea name="notes" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Reject</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}

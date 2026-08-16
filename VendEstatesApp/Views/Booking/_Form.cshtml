@@ -1,0 +1,54 @@
+@model VendEstatesApp.ViewModels.Booking.BookingFormViewModel
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="RoomId" class="form-label"></label>
+        <select asp-for="RoomId" class="form-select" asp-items="Model.RoomOptions">
+            <option value="">-- Select Room --</option>
+        </select>
+        <span asp-validation-for="RoomId" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="NumberOfGuests" class="form-label"></label>
+        <input asp-for="NumberOfGuests" class="form-control" />
+        <span asp-validation-for="NumberOfGuests" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="GuestName" class="form-label"></label>
+        <input asp-for="GuestName" class="form-control" />
+        <span asp-validation-for="GuestName" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="GuestPhone" class="form-label"></label>
+        <input asp-for="GuestPhone" class="form-control" />
+        <span asp-validation-for="GuestPhone" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="GuestEmail" class="form-label"></label>
+        <input asp-for="GuestEmail" class="form-control" />
+        <span asp-validation-for="GuestEmail" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="GuestIdNumber" class="form-label"></label>
+        <input asp-for="GuestIdNumber" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="CheckInDate" class="form-label"></label>
+        <input asp-for="CheckInDate" class="form-control" />
+        <span asp-validation-for="CheckInDate" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="CheckOutDate" class="form-label"></label>
+        <input asp-for="CheckOutDate" class="form-control" />
+        <span asp-validation-for="CheckOutDate" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="TotalAmount" class="form-label"></label>
+        <input asp-for="TotalAmount" class="form-control" />
+        <span asp-validation-for="TotalAmount" class="text-danger small"></span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="Notes" class="form-label"></label>
+        <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+@model IEnumerable<VendEstatesApp.Models.Booking>
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Bookings</h4>
+    <div class="d-flex gap-2">
+        <a asp-action="Calendar" class="btn btn-outline-secondary"><i class="bi bi-calendar3"></i> Calendar</a>
+        <a asp-action="LongTermStays" class="btn btn-outline-secondary"><i class="bi bi-hourglass-split"></i> Long-Term Stays</a>
+        @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+        {
+            <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Booking</a>
+        }
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive-card table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Guest</th>
+                    <th>Room</th>
+                    <th>Check-In</th>
+                    <th>Check-Out</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Balance</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    var statusBadge = booking.Status switch
+                    {
+                        VendEstatesApp.Models.Enums.BookingStatus.CheckedIn => "success",
+                        VendEstatesApp.Models.Enums.BookingStatus.CheckedOut => "secondary",
+                        VendEstatesApp.Models.Enums.BookingStatus.Cancelled => "danger",
+                        _ => "warning"
+                    };
+                    <tr>
+                        <td>
+                            @booking.GuestName
+                            @if (booking.IsLongTermStay)
+                            {
+                                <span class="badge bg-info-subtle text-info-emphasis ms-1">Long-Term</span>
+                            }
+                        </td>
+                        <td>@booking.Room?.RoomNumber</td>
+                        <td>@booking.CheckInDate.ToString("dd MMM yyyy")</td>
+                        <td>@booking.CheckOutDate.ToString("dd MMM yyyy")</td>
+                        <td><span class="badge bg-@statusBadge">@booking.Status</span></td>
+                        <td>K@booking.TotalAmount.ToString("N2")</td>
+                        <td>K@booking.Balance.ToString("N2")</td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@booking.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
+                            @if (User.IsInRole("Director") || User.IsInRole("Manager"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@booking.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
