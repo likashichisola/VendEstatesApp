@@ -8,6 +8,10 @@ EXPOSE 8080
 # changes (System.IO.IOException: configured user limit (128) on inotify instances reached).
 # This env var is read by the generic host BEFORE any user code runs, disabling that watcher.
 ENV DOTNET_hostBuilder__reloadConfigOnChange=false
+# Static file serving (e.g. asp-append-version cache-busting tag helpers) also uses
+# PhysicalFileProvider/FileSystemWatcher on wwwroot, hitting the same inotify limit at
+# request time. Forcing polling-based file watching avoids native inotify usage entirely.
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
