@@ -46,6 +46,12 @@
                         <td class="text-end">
                             <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
                             <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            @if (User.IsInRole("Director"))
+                            {
+                                <form asp-action="Delete" asp-route-id="@employee.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this employee?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            }
                         </td>
                     </tr>
                 }

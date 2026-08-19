@@ -42,7 +42,7 @@
                         <td>@expense.Branch?.Name</td>
                         <td>@expense.RequestedByEmployee?.FullName</td>
                         <td>@expense.ExpenseDate.ToString("dd MMM yyyy")</td>
-                        <td>K@expense.Amount.ToString("N2")</td>
+                        <td>K@(expense.Amount.ToString("N2"))</td>
                         <td><span class="badge bg-@statusBadge">@expense.Status</span></td>
                         <td class="text-end">
                             <a asp-action="Details" asp-route-id="@expense.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>

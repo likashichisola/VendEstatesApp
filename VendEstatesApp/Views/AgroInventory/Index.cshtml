@@ -37,7 +37,7 @@
                         <td>@item.Category</td>
                         <td>@item.Branch?.Name</td>
                         <td>@item.QuantityInStock.ToString("N2") @item.Unit</td>
-                        <td>K@item.UnitCost.ToString("N2")</td>
+                        <td>K@(item.UnitCost.ToString("N2"))</td>
                         <td>@item.ReorderLevel.ToString("N2") @item.Unit</td>
                         <td>
                             @if (item.IsLowStock)
@@ -54,6 +54,9 @@
                             @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
                             {
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this item?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </form>
                             }
                         </td>
                     </tr>

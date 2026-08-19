@@ -47,9 +47,9 @@
                             <td>@payroll.Employee?.FullName</td>
                         }
                         <td>@payroll.PayrollMonth/@payroll.PayrollYear</td>
-                        <td>K@payroll.GrossSalary.ToString("N2")</td>
-                        <td>K@payroll.TotalDeductions.ToString("N2")</td>
-                        <td>K@payroll.NetSalary.ToString("N2")</td>
+                        <td>K@(payroll.GrossSalary.ToString("N2"))</td>
+                        <td>K@(payroll.TotalDeductions.ToString("N2"))</td>
+                        <td>K@(payroll.NetSalary.ToString("N2"))</td>
                         <td><span class="badge bg-@statusBadge">@payroll.Status</span></td>
                         <td class="text-end">
                             <a asp-action="Details" asp-route-id="@payroll.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>

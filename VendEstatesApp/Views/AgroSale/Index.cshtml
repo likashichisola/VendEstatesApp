@@ -32,8 +32,8 @@
                         <td>@sale.AgroInventory?.ItemName</td>
                         <td>@(sale.CustomerName ?? "-")</td>
                         <td>@sale.QuantitySold.ToString("N2") @sale.AgroInventory?.Unit</td>
-                        <td>K@sale.UnitPrice.ToString("N2")</td>
-                        <td>K@sale.TotalAmount.ToString("N2")</td>
+                        <td>K@(sale.UnitPrice.ToString("N2"))</td>
+                        <td>K@(sale.TotalAmount.ToString("N2"))</td>
                         <td>@sale.SaleDate.ToString("dd MMM yyyy")</td>
                         <td>@sale.SoldByEmployee?.FullName</td>
                     </tr>

@@ -42,8 +42,8 @@
                         <td>@booking.StartDate.ToString("dd MMM yyyy")</td>
                         <td>@booking.EndDate.ToString("dd MMM yyyy")</td>
                         <td><span class="badge bg-@statusBadge">@booking.Status</span></td>
-                        <td>K@booking.TotalAmount.ToString("N2")</td>
-                        <td>K@booking.Balance.ToString("N2")</td>
+                        <td>K@(booking.TotalAmount.ToString("N2"))</td>
+                        <td>K@(booking.Balance.ToString("N2"))</td>
                         <td class="text-end">
                             <a asp-action="Details" asp-route-id="@booking.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
                             @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))

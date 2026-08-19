@@ -42,7 +42,7 @@
                         <td>@payment.Method</td>
                         <td>@relatedTo</td>
                         <td>@payment.PaymentDate.ToString("dd MMM yyyy")</td>
-                        <td>K@payment.Amount.ToString("N2")</td>
+                        <td>K@(payment.Amount.ToString("N2"))</td>
                         <td><span class="badge bg-@statusBadge">@payment.Status</span></td>
                         <td class="text-end">
                             <a asp-action="Details" asp-route-id="@payment.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>

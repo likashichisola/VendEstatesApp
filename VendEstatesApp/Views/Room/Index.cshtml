@@ -40,6 +40,9 @@
                     @if (User.IsInRole("Director") || User.IsInRole("Manager") || User.IsInRole("Accountant"))
                     {
                         <a asp-action="Edit" asp-route-id="@room.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@room.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this room?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
                     }
                 </div>
             </div>
