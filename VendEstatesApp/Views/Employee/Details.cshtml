@@ -18,7 +18,7 @@
             <dd class="col-sm-9">@Model.Username</dd>
 
             <dt class="col-sm-3">Email</dt>
-            <dd class="col-sm-9">@Model.Email</dd>
+            <dd class="col-sm-9">@(Model.Email ?? "-")</dd>
 
             <dt class="col-sm-3">Phone</dt>
             <dd class="col-sm-9">@Model.PhoneNumber</dd>
@@ -46,6 +46,9 @@
 
             <dt class="col-sm-3">TPIN</dt>
             <dd class="col-sm-9">@(Model.TpinNumber ?? "-")</dd>
+
+            <dt class="col-sm-3">ZRA No.</dt>
+            <dd class="col-sm-9">@(Model.ZraNumber ?? "-")</dd>
 
             <dt class="col-sm-3">Status</dt>
             <dd class="col-sm-9">

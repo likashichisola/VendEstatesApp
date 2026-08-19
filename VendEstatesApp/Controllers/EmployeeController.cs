@@ -74,7 +74,8 @@ public class EmployeeController : Controller
             IsActive = model.IsActive,
             NapsaNumber = model.NapsaNumber,
             NhimaNumber = model.NhimaNumber,
-            TpinNumber = model.TpinNumber
+            TpinNumber = model.TpinNumber,
+            ZraNumber = model.ZraNumber
         };
 
         var (success, error) = await _employeeService.CreateAsync(employee, model.Password!);
@@ -113,7 +114,8 @@ public class EmployeeController : Controller
             IsActive = employee.IsActive,
             NapsaNumber = employee.NapsaNumber,
             NhimaNumber = employee.NhimaNumber,
-            TpinNumber = employee.TpinNumber
+            TpinNumber = employee.TpinNumber,
+            ZraNumber = employee.ZraNumber
         };
 
         await PopulateOptionsAsync(vm);
@@ -146,7 +148,8 @@ public class EmployeeController : Controller
             IsActive = model.IsActive,
             NapsaNumber = model.NapsaNumber,
             NhimaNumber = model.NhimaNumber,
-            TpinNumber = model.TpinNumber
+            TpinNumber = model.TpinNumber,
+            ZraNumber = model.ZraNumber
         };
 
         var (success, error) = await _employeeService.UpdateAsync(employee);
@@ -194,7 +197,8 @@ public class EmployeeController : Controller
         [
             new SelectListItem("Director", "Director"),
             new SelectListItem("Manager", "Manager"),
-            new SelectListItem("Accountant", "Accountant")
+            new SelectListItem("Accountant", "Accountant"),
+            new SelectListItem("Other", "Other")
         ];
     }
 }

@@ -4,5 +4,6 @@ public enum EmployeeRole
 {
     Director,
     Manager,
-    Accountant
+    Accountant,
+    Other
 }

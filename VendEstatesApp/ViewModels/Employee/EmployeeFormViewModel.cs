@@ -19,8 +19,8 @@ public class EmployeeFormViewModel
     [Required, StringLength(30)]
     public string Username { get; set; } = string.Empty;
 
-    [Required, EmailAddress]
-    public string Email { get; set; } = string.Empty;
+    [EmailAddress]
+    public string? Email { get; set; }
 
     [Required, Phone]
     [Display(Name = "Phone Number")]
@@ -62,6 +62,9 @@ public class EmployeeFormViewModel
 
     [Display(Name = "TPIN Number")]
     public string? TpinNumber { get; set; }
+
+    [Display(Name = "ZRA Number")]
+    public string? ZraNumber { get; set; }
 
     public List<SelectListItem> BranchOptions { get; set; } = [];
 

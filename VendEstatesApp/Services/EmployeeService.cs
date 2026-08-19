@@ -89,6 +89,7 @@ public class EmployeeService : IEmployeeService
         existing.NapsaNumber = employee.NapsaNumber;
         existing.NhimaNumber = employee.NhimaNumber;
         existing.TpinNumber = employee.TpinNumber;
+        existing.ZraNumber = employee.ZraNumber;
 
         await _employeeRepository.UpdateAsync(existing);
         return (true, null);

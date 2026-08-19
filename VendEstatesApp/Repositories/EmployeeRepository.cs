@@ -16,7 +16,7 @@ public interface IEmployeeRepository : IGenericRepository<Employee>
 
     Task<bool> UsernameExistsAsync(string username, int? excludeId = null);
 
-    Task<bool> EmailExistsAsync(string email, int? excludeId = null);
+    Task<bool> EmailExistsAsync(string? email, int? excludeId = null);
 }
 
 public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
@@ -40,6 +40,13 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployeeReposito
     public async Task<bool> UsernameExistsAsync(string username, int? excludeId = null) =>
         await DbSet.AnyAsync(e => e.Username == username && (excludeId == null || e.Id != excludeId));
 
-    public async Task<bool> EmailExistsAsync(string email, int? excludeId = null) =>
-        await DbSet.AnyAsync(e => e.Email == email && (excludeId == null || e.Id != excludeId));
+    public async Task<bool> EmailExistsAsync(string? email, int? excludeId = null)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return false;
+        }
+
+        return await DbSet.AnyAsync(e => e.Email == email && (excludeId == null || e.Id != excludeId));
+    }
 }
